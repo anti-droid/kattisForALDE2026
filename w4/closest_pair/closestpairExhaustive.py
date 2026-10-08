@@ -7,7 +7,6 @@ for _ in range(n):
     x,y = map(float,input().split())
     l.append(complex(x,y))
 
-
 min_a = l[0]
 min_b = l[1]
 min_val = abs(l[0]-l[1])
