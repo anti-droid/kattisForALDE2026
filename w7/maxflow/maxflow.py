@@ -1,22 +1,22 @@
 n,m,s,t = map(int,input().split())
 G = {}
-
+fw_edge = set()
 C = 0
 
 for i in range(m):
-    u,v,c,f = map(int,input().split())
-    C+=max(f+c)
+    u,v,c = map(int,input().split())
+    C+=c
     if (u not in G):
         G[u] = {}
     if (v not in G[u]):
         G[u][v] = 0
-    G[u][v] += c-f
+    G[u][v] += c
 
     if (v not in G):
         G[v] = {}
     if (u not in G[v]):
         G[v][u] = 0
-    G[v][u] += f
+    fw_edge.add((u,v))
     
 def dfs(G, seen, s, t):
     if s == t:
@@ -38,10 +38,17 @@ def FFflow(G,s,t):
     while(True):
         b,v,c = dfs(G,set(),s,t)
         if not b:
-            return res
+            break
         res += c
-        for i in ragne(1,n):
+        #update the flow for an augmented path
+        for i in range(1,len(v)):
             G[v[i]][v[i-1]] -= c
-            G[v[i-1]][v[i]] += c    
+            G[v[i-1]][v[i]] += c
+    #look through the graph an generate the output
+    #hard to do in less than n^2
+    # hvordan kender vi foreskel på 0 i backwards og farwards?
+    return res
+
+res = set()
 
 print(FFflow(G,s,t))
